@@ -36,6 +36,8 @@ namespace Project_Eye
             Calidad = calidad;
             Link = getMagnet();
             Porcentaje = 0;
+            Archivo = "";
+            Hash = "";
             
             
         }
@@ -49,9 +51,16 @@ namespace Project_Eye
             HttpDownloader fuente = new HttpDownloader(pagina, "thepiratebay.se", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:29.0) Gecko/20100101 Firefox/29.0");
             string codigo = fuente.GetPage();
             int primero = codigo.IndexOf("href=\"magnet");
-            int segundo = codigo.IndexOf("\" title", primero);
-            string magnet = codigo.Substring(primero + 6, segundo - primero - 6);
-            return magnet;
+            if (primero != -1)
+            {
+                int segundo = codigo.IndexOf("\" title", primero);
+                string magnet = codigo.Substring(primero + 6, segundo - primero - 6);
+                return magnet;
+            }
+            else
+            {
+                return "-1";
+            }
         }
 
 
