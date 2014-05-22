@@ -39,43 +39,63 @@ namespace Project_Eye
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
 
-            s = new Serie(75760, 1, 1);
-          
-                BackgroundWorker b = new BackgroundWorker();
-                //b.WorkerReportsProgress = true;
-                b.DoWork += (seneder, ee) =>
-                    {
-                            
-                        s.AddEpisodes();
-
-                            
-                    };
-                s.PropertyChanged += (sen, eee) =>
+            BackgroundWorker c = new BackgroundWorker();
+            c.DoWork += (selo, epo) =>
                 {
-                    System.Windows.Application.Current.Dispatcher.Invoke(
-                    DispatcherPriority.Normal,
-                    (ThreadStart)delegate { labe.Content = s.Descargando; });
-                        
+                    s = new Serie(76290);
+                    s.PropertyChanged += (sen, eee) =>
+                    {
+                        if (eee.PropertyName == "Descargando")
+                            Application.Current.Dispatcher.Invoke(
+                            DispatcherPriority.Normal,
+                            (ThreadStart)delegate { labe.Content = s.Descargando; });
                     };
-              
-            
+                };
 
-                b.RunWorkerAsync();
+            c.RunWorkerAsync();
+
+            c.RunWorkerCompleted += (epos, lalas) =>
+                {
+                    BackgroundWorker b = new BackgroundWorker();
+                    b.DoWork += (ma, it) =>
+                        {
+                            s.addSerie(9, 1);
+                        };
+                    b.RunWorkerAsync();
+                    List<int> l = new List<int>();
+                    for (int i = 1; i <= s.Episodios.Count; i++)
+                    {
+                        l.Add(i);
+                    }
+
+                    tempas.ItemsSource= l;
+                    Application.Current.Dispatcher.Invoke(
+                            DispatcherPriority.Normal,
+                            (ThreadStart)delegate { load.Visibility = System.Windows.Visibility.Hidden; });
+                    tempas.SelectionChanged += (rola, pola) =>
+                        {
+                            if (tempas.SelectedIndex != -1)
+                            {
+                                capos.Items.Clear();
+                                for (int i = 1; i <= s.Episodios[tempas.SelectedIndex].Count; i++)
+                                {
+                                    
+                                    capos.Items.Add(i);
+                                }
+                            }
+                        };
+
+                };
             
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show(s.Episodios[0][0].Temporada.ToString());
-            /*
-            foreach (List<Episodio> p in s.Episodios)
-            {
-                foreach (Episodio m in p)
-                {
-                    MessageBox.Show(m.Temporada.ToString() + " " + m.Capitulo.ToString());
-                }
-            }
-*/
+
+
+            MessageBox.Show(s.Imprimir());
+
+
         }
     }
 }
